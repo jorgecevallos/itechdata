@@ -47,7 +47,7 @@ public class ProductoController {
 	@PostMapping("/save")
 	public String save(Producto producto, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
 		LOGGER.info("Este es el objeto producto {}",producto);
-		
+		producto.setEstado("ACTIVO");
 		//imagen
 		if (producto.getId()==null) { // cuando se crea un producto
 			String nombreImagen= upload.saveImage(file);
@@ -65,7 +65,6 @@ public class ProductoController {
 		Producto producto= new Producto();
 		Optional<Producto> optionalProducto=productoService.get(id);
 		producto= optionalProducto.get();
-		
 		LOGGER.info("Producto buscado: {}",producto);
 		model.addAttribute("producto", producto);
 		
@@ -94,16 +93,12 @@ public class ProductoController {
 	
 	@GetMapping("/delete/{id}")
 	public String delete(@PathVariable Integer id) {
-		
-		Producto p = new Producto();
-		p=productoService.get(id).get();
-		
-		//eliminar cuando no sea la imagen por defecto
-		if (!p.getImagen().equals("default.jpg")) {
-			upload.deleteImage(p.getImagen());
-		}
-		
-		productoService.delete(id);
+		//OBTENEMOS EL PRODUCTO SEGUN EL ID
+		Producto producto = new Producto(); //creo un objeto del tipo producto
+		Optional<Producto> optionalProducto=productoService.get(id);//optional me permite saber si esq existe un producto son ese id
+		producto = optionalProducto.get();//cargo el producto encontrado en el objeto
+		producto.setEstado("ELIMINADO");//asigno el nuevo estado del producto
+		productoService.update(producto);
 		return "redirect:/productos";
 	}
 	

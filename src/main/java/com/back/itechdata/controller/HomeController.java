@@ -169,7 +169,7 @@ public class HomeController {
 		orden.setNumero(ordenService.generarNumeroOrden());
 		
 		//usuario
-		Usuario usuario =usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())  ).get();
+		Usuario usuario = usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		
 		orden.setUsuario(usuario);
 		ordenService.save(orden);
@@ -188,10 +188,14 @@ public class HomeController {
 	}
 	
 	@PostMapping("/search")
-	public String searchProduct(@RequestParam String nombre, Model model) {
-		log.info("Nombre del producto: {}", nombre);
+	public String searchProduct(@RequestParam String nombre, Model model, HttpSession session) {
+		Usuario usuario = usuarioService.findById( Integer.parseInt(session.getAttribute("idusuario").toString())).get();
 		List<Producto> productos= productoService.findAll().stream().filter( p -> p.getNombre().contains(nombre)).collect(Collectors.toList());
-		model.addAttribute("productos", productos);		
+		model.addAttribute("productos", productos);	
+		if(usuario.getTipo().equals("ADMIN")) {
+			log.info("Nombre del producto: {}", usuario.getTipo());
+			return "administrador/home";
+		}
 		return "usuario/home";
 	}
 
