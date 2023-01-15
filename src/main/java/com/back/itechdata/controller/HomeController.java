@@ -180,7 +180,6 @@ public class HomeController {
 		
 		//guardar detalles
 		for (DetalleOrden dt:detalles) {
-			dt.setOrden(orden);
 			detalleOrdenService.save(dt);
 		}
 		
