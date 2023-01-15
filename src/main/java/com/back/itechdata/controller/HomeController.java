@@ -180,8 +180,6 @@ public class HomeController {
 		ordenService.save(orden);
 		//actualizar el stock del producto
 		Producto producto = new Producto(); //creo un objeto del tipo producto
-		
-		productoService.update(producto);
 		//guardar detalles
 		for (DetalleOrden dt:detalles) {
 			//actualizar el stock
@@ -190,7 +188,6 @@ public class HomeController {
 			int actualizaStock = dt.getProducto().getCantidad() - dt.getCantidad();//calculo el nuevo stock
 			producto.setCantidad(actualizaStock);//asigno el nuevo estado del producto
 			productoService.update(producto);
-			
 			//guardo el detalle
 			detalleOrdenService.save(dt);
 		}
