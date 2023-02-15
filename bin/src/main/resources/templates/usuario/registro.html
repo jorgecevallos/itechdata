@@ -62,7 +62,7 @@
 		</div>
 		<form th:action="@{/usuario/save}" method="post">
 			<div class="form-group">
-				<label for="nombres">Nombres:</label> <input type="text" pattern="[A-Z][a-z]+\s[A-Z][a-z]+" title="Por favor cada palabra debe contener una letra mayuscula seguida de letras minusculas "  class="form-control" id="nombre" name="nombre"
+				<label for="nombres">Nombres:</label> <input type="text" class="form-control" id="nombre" name="nombre"
 					required placeholder="Ingrese sus nombres" autocomplete="off">
 			</div>
 
@@ -72,12 +72,12 @@
 			</div>
 
 			<div class="form-group">
-				<label for="direccion">Dirección:</label> <input type="text" pattern="[A-Za-z0-9\s,'-]+" title="Sólo se permiten caracteres alfanuméricos y espacios." class="form-control" id="direccion"
+				<label for="direccion">Dirección:</label> <input type="text" class="form-control" id="direccion"
 					name="direccion" required placeholder="Ingrese su dirección" autocomplete="off">
 			</div>
 
 			<div class="form-group">
-				<label for="pwd">Contraseña</label> <input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="La contraseña debe tener al menos 8 caracteres, incluir al menos un número, una letra minúscula y una letra mayúscula." class="form-control" id="password"
+				<label for="pwd">Contraseña</label> <input type="password" class="form-control" id="password"
 					name="password" required placeholder="Ingrese su contraseña" autocomplete="off">
 			</div>
 			<div class="col-sm-2">

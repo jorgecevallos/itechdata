@@ -55,9 +55,9 @@ public class ProductoController {
 		}else {
 			
 		}
-		
 		productoService.save(producto);
 		return "redirect:/productos";
+		
 	}
 	
 	@GetMapping("/edit/{id}")
