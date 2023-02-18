@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity //habilitamos la configuracion web de la seguridad
 public class SpingBootSecurity extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
@@ -29,13 +29,21 @@ public class SpingBootSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().disable().authorizeRequests()//csrf ayuda a que no se inyecte codigo malisioso a la app
 		.antMatchers("/administrador/**").hasRole("ADMIN")//antMatchers permite decir a que contvistas va a tener acceso segun el rol q tenga
 		.antMatchers("/productos/**").hasRole("ADMIN")
-		.and().formLogin().loginPage("/usuario/login")//formLogin() establece la ruta en donde se va a cargar el formulario 
-		.permitAll().defaultSuccessUrl("/usuario/acceder");//una ves q el usuario se logueo se va a ir a la direcccion de acceder ubicado en el usuarioControler
+		.and().formLogin()//con esto decimos que queremoa configurara el formulario de login
+		.loginPage("/usuario/login")//formLogin() establece la ruta en donde se va a cargar el formulario 
+		//.failureUrl("usuario/login-error")
+		.permitAll().defaultSuccessUrl("/usuario/acceder")// si se logueo exitosamente va a redirigir a la pagina de usuario
+		.failureUrl("/usuario/login-error")
+		.usernameParameter("username")
+		.passwordParameter("password")
+		.and()
+        .logout()
+        .permitAll();
 	}
 	
 	@Bean
 	public BCryptPasswordEncoder getEnecoder() {
-		return new BCryptPasswordEncoder();
+		return new BCryptPasswordEncoder(31);
 	}
 	
 

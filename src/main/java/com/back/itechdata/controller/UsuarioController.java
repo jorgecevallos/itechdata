@@ -3,6 +3,7 @@ package com.back.itechdata.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.back.itechdata.model.Orden;
 import com.back.itechdata.model.Usuario;
@@ -66,14 +66,23 @@ public class UsuarioController {
 		return "usuario/login";
 	}
 	
+	@GetMapping("/login-error")
+	public String loginError(HttpServletRequest request, Model modelo) {
+	    HttpSession session = request.getSession(false);
+	    if (session != null) {
+	        session.invalidate();
+	    }
+	    modelo.addAttribute("error", "Usuario o cantraseña incorrectos");
+	    return "usuario/login";
+	}
+	
 	@GetMapping("/acceder")
 	public String acceder(Usuario usuario, HttpSession session) {
-		logger.info("Accesos : {}", usuario);
 		
+		logger.info("Accesos : {}", usuario);
 		Optional<Usuario> user=usuarioService.findById(Integer.parseInt(session.getAttribute("idusuario").toString()));
-		if (user.isPresent()) {
+		if (user.isPresent()) {	
 			session.setAttribute("idusuario", user.get().getId());
-			
 			if (user.get().getTipo().equals("ADMIN")) {
 				return "redirect:/administrador";
 			}else {

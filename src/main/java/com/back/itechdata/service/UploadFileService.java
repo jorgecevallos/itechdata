@@ -13,10 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UploadFileService {
-	//private String folder="images//";//cuando no se sube a produccion
+	private String folder="images//";//cuando no se sube a produccion
 	//cuando se sube a produccion
-	
-	private String folder ="/opt/images/";
+	//private String folder ="/opt/images/";
+	/*
 	private final Path root = Paths.get("images");
 	public UploadFileService() {
 		if(!Files.exists(root)) {
@@ -28,17 +28,19 @@ public class UploadFileService {
 			}
 		}
 	}
+	*/
 	
 	public String saveImage(MultipartFile file) throws IOException {
-		/*if (!file.isEmpty()) {
+		if (!file.isEmpty()) {
 			byte [] bytes=file.getBytes();
 			Path path =Paths.get(folder+file.getOriginalFilename());
 			Files.write(path, bytes);
 			return file.getOriginalFilename();
 		}
-		return "default.jpg";*/
-		//para cuando se sube a producción
+		return "default.jpg";
 		
+		//para cuando se sube a producción
+		/*
 		if (!file.isEmpty()) {
 			byte [] bytes=file.getBytes();
 			Path path =Paths.get(folder+file.getOriginalFilename());
@@ -52,12 +54,12 @@ public class UploadFileService {
 			Files.write(path, in.readAllBytes());
 		}
 		return "default.jpg";
-		
+		*/
 	}
 	
 	public void deleteImage(String nombre) {
-		//String ruta="images//";
-		String ruta="/opt/images/";//para cuando se sube a produccion
+		String ruta="images//";
+		//String ruta="/opt/images/";//para cuando se sube a produccion
 		File file= new File(ruta+nombre);
 		file.delete();
 	}
